@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "52478989154",
+    "firebase_url": "https://artasprint.firebaseio.com",
+    "project_id": "artasprint",
+    "storage_bucket": "artasprint.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52478989154:android:afa9019bc5a9b936",
+        "android_client_info": {
+          "package_name": "id.blank.arta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52478989154-nf9n8pmelh3sqphbrq0514g00nuhr2qm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAb4H64f0kaew1hxx8pqhlP0J1yIVLdfj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52478989154-nf9n8pmelh3sqphbrq0514g00nuhr2qm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
