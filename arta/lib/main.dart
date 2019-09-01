@@ -1,4 +1,4 @@
-import 'package:arta/splash.dart';
+import 'package:Arta/splash.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(Arta());
