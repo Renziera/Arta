@@ -14,6 +14,7 @@ class SplashScreen extends StatelessWidget {
           MaterialPageRoute(builder: (context) => LoginScreen()));
       return;
     }
+    
     DocumentSnapshot ds = await Firestore.instance
         .collection('pengguna')
         .document(user.uid)
