@@ -1,3 +1,4 @@
+import 'dart:html' as html;
 import 'package:flutter_web/material.dart';
 
 void main() => runApp(ArtaWeb());
@@ -45,7 +46,7 @@ class _MainPageState extends State<MainPage> {
             SizedBox(height: 36),
             RaisedButton(
               onPressed: () {
-                print('PRESSED');
+                html.window.location.href = "/apk";
               },
               child: Text(
                 'Download Arta',
