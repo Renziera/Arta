@@ -23,6 +23,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void tembakOTP() async {
     String nomor = nomorController.text;
+    if(nomor.isEmpty){
+      Fluttertoast.showToast(msg: 'Nomor tidak boleh kosong');
+      return;
+    }
     if (nomor.startsWith('0')) {
       nomor = nomor.replaceFirst('0', '+62');
     }

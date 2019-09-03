@@ -58,6 +58,11 @@ flutter:
 
   assets:
     - img/logo_arta.png
+    - img/qr_code.png
+    - img/menu_home.png
+    - img/menu_history.png
+    - img/menu_wallet.png
+    - img/menu_profil.png
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

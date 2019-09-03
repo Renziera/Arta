@@ -8,6 +8,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ScrollController _controller = ScrollController();
   int _currentIndex = 0;
   List<Widget> _pages;
 
@@ -17,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _pages = [
       HomePage(),
       Container(color: Colors.cyan),
+      SizedBox.shrink(),
       Container(color: Colors.brown),
       AkunPage(),
     ];
@@ -25,23 +27,83 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Arta'),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Image.asset('img/qr_code.png'),
       ),
-      body: _pages[_currentIndex],
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: NestedScrollView(
+        controller: _controller,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              title: Text('ASDF'),
+              pinned: true,
+              floating: true,
+              elevation: 0,
+              forceElevated: innerBoxIsScrolled,
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(96),
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    Container(
+                      color: Colors.white,
+                      height: 96,
+                      width: double.infinity,
+                    ),
+                    Container(
+                      height: 96,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.vertical(
+                          bottom: Radius.circular(72),
+                        ),
+                      ),
+                    ),
+                    Card(
+                      margin: EdgeInsets.only(bottom: 0, left: 24, right: 24,),
+                      child: SizedBox(height: 88, width: double.infinity,),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ];
+        },
+        body: _pages[_currentIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
+          if (index == 2) return;
           setState(() {
             _currentIndex = index;
           });
         },
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-          BottomNavigationBarItem(icon: Icon(Icons.ac_unit), title: Text('B')),
-          BottomNavigationBarItem(icon: Icon(Icons.ac_unit), title: Text('C')),
-          BottomNavigationBarItem(icon: Icon(Icons.person), title: Text('Akun')),
+          BottomNavigationBarItem(
+            icon: Image.asset('img/menu_home.png'),
+            title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset('img/menu_history.png'),
+            title: Text('History'),
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset('img/qr_code.png'),
+            title: Text('Scan QR'),
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset('img/menu_wallet.png'),
+            title: Text('Wallet'),
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset('img/menu_profil.png'),
+            title: Text('Profil'),
+          ),
         ],
       ),
     );

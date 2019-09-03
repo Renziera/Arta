@@ -1,3 +1,4 @@
+import 'package:Arta/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,8 @@ class _AkunPageState extends State<AkunPage> {
     setState(() {
       nama = ds.data['nama'];
       nomor = ds.data['nomor'];
-      saldo = ds.data['saldo'];
+      saldo = ds.data['saldo'].toString();
+      saldo = formatUang(saldo);
     });
   }
 
