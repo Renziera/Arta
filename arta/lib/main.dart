@@ -10,6 +10,7 @@ class Arta extends StatelessWidget {
       title: 'Arta',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Nunito',
       ),
       home: SplashScreen(),
     );

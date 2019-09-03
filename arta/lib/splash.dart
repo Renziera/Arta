@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
           MaterialPageRoute(builder: (context) => LoginScreen()));
       return;
     }
-    
+
     DocumentSnapshot ds = await Firestore.instance
         .collection('pengguna')
         .document(user.uid)
@@ -41,7 +41,25 @@ class SplashScreen extends StatelessWidget {
     start(context);
     return Scaffold(
       body: Center(
-        child: Text('INI SPLASH'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              'img/logo_arta.png',
+              height: 156,
+              width: 156,
+            ),
+            SizedBox(height: 24),
+            Text(
+              'Arta',
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
