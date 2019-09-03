@@ -63,7 +63,13 @@ flutter:
     - img/menu_history.png
     - img/menu_wallet.png
     - img/menu_profil.png
-    
+    - img/setting.png
+    - img/alms.png
+    - img/dream_saving.png
+    - img/investment.png
+    - img/wallet_arta.png
+    - img/wallet_jagung.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
