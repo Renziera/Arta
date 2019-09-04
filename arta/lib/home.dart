@@ -1,6 +1,7 @@
 import 'package:Arta/page_akun.dart';
 import 'package:Arta/page_history.dart';
 import 'package:Arta/page_home.dart';
+import 'package:Arta/page_qr.dart';
 import 'package:Arta/page_wallet.dart';
 import 'package:Arta/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _pages = [
       HomePage(),
       HistoryPage(),
-      SizedBox.shrink(),
+      QRPage(),
       WalletPage(),
       AkunPage(),
     ];
@@ -51,7 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+           _currentIndex = 2; 
+          });
+        },
         child: Image.asset('img/qr_code.png'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -206,7 +211,6 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
-          if (index == 2) return;
           setState(() {
             _currentIndex = index;
           });

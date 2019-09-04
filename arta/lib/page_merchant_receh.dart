@@ -254,7 +254,7 @@ class _MerchantRecehState extends State<MerchantReceh> {
                         height: 256,
                         width: 256,
                         child: QrImage(
-                          data: '$nominal#${ds.documentID}#${doc.documentID}',
+                          data: 'R#$nominal#${ds.documentID}#${doc.documentID}',
                         ),
                       ),
                     );

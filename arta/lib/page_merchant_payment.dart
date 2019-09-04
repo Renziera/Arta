@@ -249,7 +249,7 @@ class _MerchantPaymentState extends State<MerchantPayment> {
                         height: 256,
                         width: 256,
                         child: QrImage(
-                          data: '$nominal#${user.uid}#${doc.documentID}',
+                          data: 'P#$nominal#${user.uid}#${doc.documentID}',
                         ),
                       ),
                     );
