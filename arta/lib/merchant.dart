@@ -145,7 +145,7 @@ class _MerchantScreenState extends State<MerchantScreen> {
             ListTile(
               title: Text('Keluar'),
               leading: Icon(Icons.exit_to_app),
-              selected: _currentIndex == 3,
+              selected: _currentIndex == 4,
               onTap: () async {
                 await FirebaseAuth.instance.signOut();
                 Navigator.of(context).pushAndRemoveUntil(

@@ -59,16 +59,26 @@ flutter:
   assets:
     - img/logo_arta.png
     - img/qr_code.png
+    - img/crosshair.png
     - img/menu_home.png
     - img/menu_history.png
     - img/menu_wallet.png
     - img/menu_profil.png
+    - img/menu_home_aktif.png
+    - img/menu_history_aktif.png
+    - img/menu_wallet_aktif.png
+    - img/menu_profil_aktif.png
     - img/setting.png
     - img/alms.png
     - img/dream_saving.png
     - img/investment.png
     - img/wallet_arta.png
     - img/wallet_jagung.png
+    - img/merchant1.png
+    - img/merchant2.png
+    - img/merchant3.png
+    - img/promo1.png
+    - img/promo2.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

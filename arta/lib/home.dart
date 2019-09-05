@@ -3,6 +3,7 @@ import 'package:Arta/page_history.dart';
 import 'package:Arta/page_home.dart';
 import 'package:Arta/page_qr.dart';
 import 'package:Arta/page_wallet.dart';
+import 'package:Arta/splash.dart';
 import 'package:Arta/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       QRPage(),
       WalletPage(),
       AkunPage(),
+      QRSayaPage(),
     ];
   }
 
@@ -54,7 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-           _currentIndex = 2; 
+            if (_currentIndex == 2) {
+              _currentIndex = 5;
+            } else {
+              _currentIndex = 2;
+            }
           });
         },
         child: Image.asset('img/qr_code.png'),
@@ -72,7 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
               forceElevated: innerBoxIsScrolled,
               actions: <Widget>[
                 FlatButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => SplashScreen()),
+                        (r) => false);
+                  },
                   child: Image.asset('img/setting.png'),
                 ),
               ],
@@ -106,96 +117,46 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 88,
                         width: double.infinity,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'Arta',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16,
-                                      ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Arta',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 18,
                                     ),
-                                    Text(
-                                      'Rp${saldo ?? ''}',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 18,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 36),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'GoPay',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16,
-                                      ),
+                                  ),
+                                  Text(
+                                    'Rp${saldo ?? ''}',
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 24,
                                     ),
-                                    Text(
-                                      'Rp15.300',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 18,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(width: 36),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'OVO',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16,
-                                      ),
+                                  ),
+                                  Text(
+                                    'ArtaPoin 3594',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 10,
                                     ),
-                                    Text(
-                                      'Rp6.700',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 18,
-                                      ),
-                                    )
-                                  ],
+                                  ),
+                                ],
+                              ),
+                              FlatButton(
+                                child: Icon(
+                                  Icons.file_upload,
+                                  color: Colors.blue,
+                                  size: 48,
                                 ),
-                                SizedBox(width: 36),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      'JAGUNG',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Rp635.400',
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 18,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+                                onPressed: () {},
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -209,32 +170,40 @@ class _HomeScreenState extends State<HomeScreen> {
         body: _pages[_currentIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
+        currentIndex: (_currentIndex == 5 ? 2 : _currentIndex),
         onTap: (index) {
           setState(() {
-            _currentIndex = index;
+            if (_currentIndex == 2 && index == 2) {
+              _currentIndex = 5;
+            } else {
+              _currentIndex = index;
+            }
           });
         },
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             icon: Image.asset('img/menu_home.png'),
+            activeIcon: Image.asset('img/menu_home_aktif.png'),
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
             icon: Image.asset('img/menu_history.png'),
+            activeIcon: Image.asset('img/menu_history_aktif.png'),
             title: Text('History'),
           ),
           BottomNavigationBarItem(
             icon: Image.asset('img/qr_code.png'),
-            title: Text('Scan QR'),
+            title: Text(_currentIndex == 2 ? 'QR Saya' : 'Scan QR'),
           ),
           BottomNavigationBarItem(
             icon: Image.asset('img/menu_wallet.png'),
+            activeIcon: Image.asset('img/menu_wallet_aktif.png'),
             title: Text('Wallet'),
           ),
           BottomNavigationBarItem(
             icon: Image.asset('img/menu_profil.png'),
+            activeIcon: Image.asset('img/menu_profil_aktif.png'),
             title: Text('Profil'),
           ),
         ],
