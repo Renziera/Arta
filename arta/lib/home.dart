@@ -76,6 +76,18 @@ class _HomeScreenState extends State<HomeScreen> {
               floating: true,
               elevation: 0,
               forceElevated: innerBoxIsScrolled,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Color(0xFF56CCF2),
+                      Color(0xFF2F80ED),
+                    ],
+                  ),
+                ),
+              ),
               actions: <Widget>[
                 FlatButton(
                   onPressed: () async {
@@ -101,7 +113,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 96,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color(0xFF56CCF2),
+                            Color(0xFF2F80ED),
+                          ],
+                        ),
                         borderRadius: BorderRadius.vertical(
                           bottom: Radius.circular(72),
                         ),
@@ -126,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    'Arta',
+                                    'ArtaWallet',
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 18,
@@ -135,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Text(
                                     'Rp${saldo ?? ''}',
                                     style: TextStyle(
-                                      color: Colors.blue,
+                                      color: hijau,
                                       fontSize: 24,
                                     ),
                                   ),
@@ -148,12 +167,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ],
                               ),
-                              FlatButton(
-                                child: Icon(
-                                  Icons.file_upload,
-                                  color: Colors.blue,
-                                  size: 48,
-                                ),
+                              RaisedButton(
+                                color: hijau,
+                                textColor: Colors.white,
+                                child: Text('TOP UP'),
                                 onPressed: () {},
                               ),
                             ],

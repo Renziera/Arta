@@ -145,7 +145,7 @@ class _BayarVAState extends State<BayarVA> {
         controller.resumeCamera();
         return;
       }
-      if(source[0] != 'P'){
+      if (source[0] != 'P') {
         Fluttertoast.showToast(msg: 'Bukan pembayaran');
         controller.resumeCamera();
         return;
@@ -153,6 +153,60 @@ class _BayarVAState extends State<BayarVA> {
       int nominal = int.parse(source[1]);
       String merchantId = source[2];
       String transactionId = source[3];
+
+      DocumentSnapshot ds = await widget.docRef.get();
+      if (ds.data['nominal'] < nominal) {
+        Fluttertoast.showToast(msg: 'Saldo anda tidak cukup');
+        controller.resumeCamera();
+        return;
+      }
+      DocumentReference merchantRef =
+          Firestore.instance.collection('pengguna').document(merchantId);
+      DocumentSnapshot merchantDoc = await merchantRef.get();
+      bool result = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Text(
+                  'Pembayaran senilai Rp${formatUang(nominal.toString())} ke ${merchantDoc.data['nama']}.'),
+              actions: <Widget>[
+                RaisedButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                ),
+              ],
+            );
+          });
+      if (result ?? false) {
+        WriteBatch batch = Firestore.instance.batch();
+        batch.updateData(
+            widget.docRef, {'nominal': FieldValue.increment(-nominal)});
+        batch.updateData(merchantRef, {'saldo': FieldValue.increment(nominal)});
+        batch.setData(
+              widget.userRef.collection('transaksi').document(transactionId), {
+            'VA': true,
+            'keterangan': 'Pembayaran (VA)',
+            'nominal': nominal,
+            'merchant': merchantId,
+            'waktu': FieldValue.serverTimestamp(),
+          });
+          batch.setData(
+              merchantRef.collection('transaksi').document(transactionId), {
+            'VA': true,
+            'keterangan': 'Pembayaran (VA)',
+            'nominal': nominal,
+            'waktu': FieldValue.serverTimestamp(),
+          });
+        await batch.commit();
+        Fluttertoast.showToast(msg: 'Pembayaran berhasil');
+        Navigator.of(context).pop();
+        return;
+      }
+      controller.resumeCamera();
     });
   }
 

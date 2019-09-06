@@ -85,7 +85,7 @@ class _QRPageState extends State<QRPage> {
           Fluttertoast.showToast(msg: 'Pembayaran berhasil');
         }
       } else {
-        await showDialog(
+        String result = await showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
@@ -102,7 +102,9 @@ class _QRPageState extends State<QRPage> {
                     'Anda mendapat kembalian dari ${merchantDoc.data['nama']} senilai Rp${formatUang(nominal.toString())}'),
                 actions: <Widget>[
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop('sedekah');
+                    },
                     child: Column(
                       children: <Widget>[
                         Image.asset('img/alms.png'),
@@ -114,7 +116,9 @@ class _QRPageState extends State<QRPage> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop('dream');
+                    },
                     child: Column(
                       children: <Widget>[
                         Image.asset('img/dream_saving.png'),
@@ -126,7 +130,9 @@ class _QRPageState extends State<QRPage> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop('investment');
+                    },
                     child: Column(
                       children: <Widget>[
                         Image.asset('img/investment.png'),
@@ -138,7 +144,9 @@ class _QRPageState extends State<QRPage> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop('arta');
+                    },
                     child: Column(
                       children: <Widget>[
                         Image.asset('img/investment.png'),
@@ -153,8 +161,6 @@ class _QRPageState extends State<QRPage> {
               );
             });
         batch.updateData(userRef, {'saldo': FieldValue.increment(nominal)});
-        batch
-            .updateData(merchantRef, {'saldo': FieldValue.increment(-nominal)});
         batch.setData(userRef.collection('transaksi').document(transactionId), {
           'VA': false,
           'keterangan': 'Kembalian',
@@ -162,6 +168,8 @@ class _QRPageState extends State<QRPage> {
           'merchant': merchantId,
           'waktu': FieldValue.serverTimestamp(),
         });
+        batch
+            .updateData(merchantRef, {'saldo': FieldValue.increment(-nominal)});
         batch.setData(
             merchantRef.collection('transaksi').document(transactionId), {
           'VA': false,
@@ -172,8 +180,8 @@ class _QRPageState extends State<QRPage> {
         });
         await batch.commit();
       }
+      controller.resumeCamera();
     });
-    controller.resumeCamera();
   }
 
   @override

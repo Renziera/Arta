@@ -1,3 +1,4 @@
+import 'package:Arta/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +45,37 @@ class _MerchantTransaksiState extends State<MerchantTransaksi> {
             ),
             ListView(
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               children: _list.map((ds) {
                 return ListTile(
-                  title: Text(ds.documentID),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text('Rp${formatUang(ds.data['nominal'].toString())}'),
+                      Text(ds.data['keterangan']),
+                    ],
+                  ),
+                  subtitle: ds.data['VA']
+                      ? Text(
+                          'Virtual Account\n${formatTimestamp(ds.data['waktu'])}')
+                      : FutureBuilder<DocumentSnapshot>(
+                          future: Firestore.instance
+                              .collection('pengguna')
+                              .document(ds.data['customer'])
+                              .get(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<DocumentSnapshot> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return Text(
+                                  '${snapshot.data['nama']}\n${formatTimestamp(ds.data['waktu'])}');
+                            } else {
+                              return Text(
+                                  '\n${formatTimestamp(ds.data['waktu'])}');
+                            }
+                          },
+                        ),
+                  isThreeLine: true,
                 );
               }).toList(),
             ),
