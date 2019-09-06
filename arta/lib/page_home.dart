@@ -1,5 +1,8 @@
+import 'package:Arta/dream_saving.dart';
+import 'package:Arta/investasi.dart';
 import 'package:Arta/virtual_account.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,39 +21,67 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                FlatButton(
-                  onPressed: () {},
+                RaisedButton(
+                  onPressed: () {
+                    Fluttertoast.showToast(msg: 'Toko belum buka');
+                  },
+                  elevation: 6,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                   child: Column(
                     children: <Widget>[
-                      Image.asset('img/alms.png'),
+                      SizedBox(height: 8),
+                      Image.asset('img/store.png', height: 56),
+                      SizedBox(height: 8),
                       Text(
-                        'Alms',
+                        'Store',
                         style: TextStyle(fontSize: 10),
                       ),
+                      SizedBox(height: 8),
                     ],
                   ),
                 ),
-                FlatButton(
-                  onPressed: () {},
+                RaisedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Investasi()));
+                  },
+                  elevation: 6,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                   child: Column(
                     children: <Widget>[
-                      Image.asset('img/dream_saving.png'),
+                      SizedBox(height: 8),
+                      Image.asset('img/investment.png', height: 56),
+                      SizedBox(height: 8),
                       Text(
-                        'Dream Saving',
+                        'Investasi',
                         style: TextStyle(fontSize: 10),
                       ),
+                      SizedBox(height: 8),
                     ],
                   ),
                 ),
-                FlatButton(
-                  onPressed: () {},
+                RaisedButton(
+                  onPressed: () {
+                    Fluttertoast.showToast(msg: 'Fitur belum tersedia');
+                  },
+                  elevation: 6,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                   child: Column(
                     children: <Widget>[
-                      Image.asset('img/investment.png'),
+                      SizedBox(height: 8),
+                      Image.asset('img/mandate.png', height: 56),
+                      SizedBox(height: 8),
                       Text(
-                        'Investment',
+                        'E-Mandate',
                         style: TextStyle(fontSize: 10),
                       ),
+                      SizedBox(height: 8),
                     ],
                   ),
                 ),
@@ -60,50 +91,87 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                FlatButton(
+                RaisedButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => VirtualAccount()));
                   },
+                  elevation: 6,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                   child: Column(
                     children: <Widget>[
-                      Image.asset('img/alms.png'),
+                      SizedBox(height: 8),
+                      Image.asset('img/virtual_account.png', height: 56),
+                      SizedBox(height: 8),
                       Text(
                         'Virtual Account',
-                        style: TextStyle(fontSize: 10),
+                        style: TextStyle(fontSize: 8),
                       ),
+                      SizedBox(height: 8),
                     ],
                   ),
                 ),
-                FlatButton(
-                  onPressed: () {},
+                RaisedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => DreamSaving()));
+                  },
+                  elevation: 6,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                   child: Column(
                     children: <Widget>[
-                      Image.asset('img/dream_saving.png'),
+                      SizedBox(height: 8),
+                      Image.asset('img/dream_saving.png', height: 56),
+                      SizedBox(height: 8),
                       Text(
-                        'E-Mandate',
-                        style: TextStyle(fontSize: 10),
+                        'Dream Saving',
+                        style: TextStyle(fontSize: 8),
                       ),
+                      SizedBox(height: 8),
                     ],
                   ),
                 ),
-                FlatButton(
-                  onPressed: () {},
+                RaisedButton(
+                  onPressed: () {
+                    Fluttertoast.showToast(msg: 'Asuransi belum bekerja sama');
+                  },
+                  elevation: 6,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                   child: Column(
                     children: <Widget>[
-                      Image.asset('img/investment.png'),
+                      SizedBox(height: 8),
+                      Image.asset('img/insurance.png', height: 56),
+                      SizedBox(height: 8),
                       Text(
                         'Insurance',
                         style: TextStyle(fontSize: 10),
                       ),
+                      SizedBox(height: 8),
                     ],
                   ),
                 ),
               ],
             ),
             SizedBox(height: 16),
-            Image.asset('img/promo1.png'),
-            Image.asset('img/promo2.png'),
+            Text(
+              'Spesial Untukmu',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  Image.asset('img/promo1.png', height: 200),
+                  Image.asset('img/promo2.png', height: 200),
+                ],
+              ),
+            ),
             SizedBox(height: 16),
             Text(
               'Merchant Terdekat',

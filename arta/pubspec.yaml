@@ -70,8 +70,12 @@ flutter:
     - img/menu_profil_aktif.png
     - img/setting.png
     - img/alms.png
+    - img/store.png
     - img/dream_saving.png
     - img/investment.png
+    - img/insurance.png
+    - img/mandate.png
+    - img/virtual_account.png
     - img/wallet_arta.png
     - img/wallet_jagung.png
     - img/merchant1.png
@@ -79,6 +83,9 @@ flutter:
     - img/merchant3.png
     - img/promo1.png
     - img/promo2.png
+    - img/pembayaran.png
+    - img/kembalian.png
+    - img/emas.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

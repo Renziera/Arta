@@ -9,9 +9,8 @@ class AkunPage extends StatefulWidget {
 }
 
 class _AkunPageState extends State<AkunPage> {
-  String nama = '';
-  String nomor = '';
-  String saldo = '';
+  String nama;
+  String nomor;
 
   @override
   void initState() {
@@ -28,13 +27,45 @@ class _AkunPageState extends State<AkunPage> {
     setState(() {
       nama = ds.data['nama'];
       nomor = ds.data['nomor'];
-      saldo = ds.data['saldo'].toString();
-      saldo = formatUang(saldo);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ListView(
+      children: <Widget>[
+        ListTile(
+          title: Text(nama ?? ''),
+          subtitle: Text(nomor ?? ''),
+          onTap: (){},
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Voucher Saya'),
+          onTap: (){},
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Pilihan Bahasa'),
+          subtitle: Text('Bahasa Indonesia'),
+          onTap: (){},
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Bantuan'),
+          onTap: (){},
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Ketentuan Layanan'),
+          onTap: (){},
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Kebijakan Privasi'),
+          onTap: (){},
+        ),
+      ],
+    );
   }
 }

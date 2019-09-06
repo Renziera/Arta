@@ -90,13 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               actions: <Widget>[
                 FlatButton(
-                  onPressed: () async {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => SplashScreen()),
-                        (r) => false);
-                  },
-                  child: Image.asset('img/setting.png'),
+                  onPressed: () {},
+                  child: Image.asset('img/setting.png', height: 24),
                 ),
               ],
               bottom: PreferredSize(
@@ -200,13 +195,13 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            icon: Image.asset('img/menu_home.png'),
-            activeIcon: Image.asset('img/menu_home_aktif.png'),
+            icon: Image.asset('img/menu_home.png', height: 24),
+            activeIcon: Image.asset('img/menu_home_aktif.png', height: 24),
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
-            icon: Image.asset('img/menu_history.png'),
-            activeIcon: Image.asset('img/menu_history_aktif.png'),
+            icon: Image.asset('img/menu_history.png', height: 24),
+            activeIcon: Image.asset('img/menu_history_aktif.png', height: 24),
             title: Text('History'),
           ),
           BottomNavigationBarItem(
@@ -214,13 +209,13 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text(_currentIndex == 2 ? 'QR Saya' : 'Scan QR'),
           ),
           BottomNavigationBarItem(
-            icon: Image.asset('img/menu_wallet.png'),
-            activeIcon: Image.asset('img/menu_wallet_aktif.png'),
+            icon: Image.asset('img/menu_wallet.png', height: 24),
+            activeIcon: Image.asset('img/menu_wallet_aktif.png', height: 24),
             title: Text('Wallet'),
           ),
           BottomNavigationBarItem(
-            icon: Image.asset('img/menu_profil.png'),
-            activeIcon: Image.asset('img/menu_profil_aktif.png'),
+            icon: Image.asset('img/menu_profil.png', height: 24),
+            activeIcon: Image.asset('img/menu_profil_aktif.png', height: 24),
             title: Text('Profil'),
           ),
         ],
