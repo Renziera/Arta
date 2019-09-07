@@ -46,7 +46,7 @@ class _MainPageState extends State<MainPage> {
             SizedBox(height: 36),
             RaisedButton(
               onPressed: () {
-                html.window.location.href = "/apk";
+                html.window.location.href = "/apk/arta.apk";
               },
               child: Text(
                 'Download Arta',

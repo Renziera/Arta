@@ -16712,7 +16712,7 @@ S:function(a){var u=null,t=L.DZ("Arta",A.ht(u,u,u,u,u,u,u,u,u,u,u,u,C.aj,u,u,!0,
 return new M.k3(new E.o0(t,!0,new Q.an(1/0,56),u),new T.jc(C.a8,u,u,T.Qa(H.e([L.DZ("Payment Simplified.",A.ht(u,u,u,u,u,u,u,u,u,u,48,u,u,u,u,!0,u,u,u,u,u,u)),new T.ho(u,36,u,u),new D.By(new F.GV(),u,u,u,u,C.bH,u,u,u,u,u,u,u,u,u,u,u,L.DZ("Download Arta",A.ht(u,u,C.m,u,u,u,u,u,u,u,14,u,C.aj,u,u,!0,u,u,u,u,u,u)),u,u,u,u,u,u,u)],[N.aH]),C.hF),u),u)},
 $aak:function(){return[F.p7]}}
 F.GV.prototype={
-$0:function(){window.location.href="/apk"},
+$0:function(){window.location.href="/apk/arta.apk"},
 $C:"$0",
 $R:0,
 $S:0}
