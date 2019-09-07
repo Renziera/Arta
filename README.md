@@ -1,4 +1,4 @@
 # Arta
 Sprint Hackathon Brawijaya
 
-[Arta Web](artasprint.web.app "Open to download APK")
+[Arta Web](https://artasprint.web.app "Open to download APK")
