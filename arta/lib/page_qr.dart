@@ -154,6 +154,7 @@ class _QRPageState extends State<QRPage> {
           'waktu': FieldValue.serverTimestamp(),
         });
         await batch.commit();
+        Fluttertoast.showToast(msg: 'Berhasil menerima kembalian');
       }
       controller.resumeCamera();
     });
@@ -317,7 +318,7 @@ class _QRPageState extends State<QRPage> {
                 ),
                 ListTile(
                   title: Text('Vihara C'),
-                  subtitle: Text('Pembangungan patung Dewi Kwan Im'),
+                  subtitle: Text('Pembangunan patung Dewi Kwan Im'),
                   onTap: () {
                     Navigator.of(context).pop('Vihara C');
                   },
@@ -347,6 +348,7 @@ class _QRPageState extends State<QRPage> {
               children: <Widget>[
                 Text(
                     'Anda mendapat kembalian dari ${merchantDoc.data['nama']} senilai Rp${formatUang(nominal.toString())}'),
+                SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[

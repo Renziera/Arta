@@ -22,7 +22,7 @@ String formatUangSpasi(String s) {
 String formatTimestamp(Timestamp timestamp) {
   DateTime dateTime = timestamp.toDate();
   String s = '';
-  s += hari[dateTime.weekday];
+  s += hari[dateTime.weekday - 1];
   s += ', ';
   s += dateTime.day.toString();
   s += ' ';
