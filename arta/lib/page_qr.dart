@@ -85,89 +85,64 @@ class _QRPageState extends State<QRPage> {
           Fluttertoast.showToast(msg: 'Pembayaran berhasil');
         }
       } else {
-        String result = await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(
-                  'Receh',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                content: Text(
-                    'Anda mendapat kembalian dari ${merchantDoc.data['nama']} senilai Rp${formatUang(nominal.toString())}'),
-                actions: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pop('sedekah');
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('img/alms.png'),
-                        Text(
-                          'Alms',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pop('dream');
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('img/dream_saving.png'),
-                        Text(
-                          'Dream Saving',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pop('investment');
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('img/investment.png'),
-                        Text(
-                          'Investment',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pop('arta');
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset('img/investment.png'),
-                        Text(
-                          'Investment',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            });
-        batch.updateData(userRef, {'saldo': FieldValue.increment(nominal)});
-        batch.setData(userRef.collection('transaksi').document(transactionId), {
-          'VA': false,
-          'keterangan': 'Kembalian',
-          'nominal': nominal,
-          'merchant': merchantId,
-          'waktu': FieldValue.serverTimestamp(),
-        });
+        String result = await dialogReceh(merchantDoc, nominal);
+        if (result == null) {
+          controller.resumeCamera();
+          return;
+        }
+
+        if (result == 'sedekah') {
+          String sedekah = await dialogSedekah();
+          if (sedekah == null) {
+            controller.resumeCamera();
+            return;
+          }
+          batch.setData(
+              userRef.collection('transaksi').document(transactionId), {
+            'keterangan': 'Sedekah $sedekah',
+            'nominal': nominal,
+            'waktu': FieldValue.serverTimestamp(),
+          });
+        } else if (result == 'dream') {
+          DocumentReference dream = await dialogImpian(user);
+          if (dream == null) {
+            controller.resumeCamera();
+            return;
+          }
+          batch.updateData(dream, {'progress': FieldValue.increment(nominal)});
+          batch.setData(
+              userRef.collection('transaksi').document(transactionId), {
+            'VA': false,
+            'keterangan': 'Kembalian',
+            'nominal': nominal,
+            'merchant': merchantId,
+            'waktu': FieldValue.serverTimestamp(),
+          });
+        } else if (result == 'investasi') {
+          bool investasi = await dialogInvestasi(user);
+          if (investasi == null) {
+            controller.resumeCamera();
+            return;
+          }
+          batch.updateData(userRef, {'emas': FieldValue.increment(nominal)});
+          batch.setData(
+              userRef.collection('transaksi').document(transactionId), {
+            'keterangan': 'Investasi emas',
+            'nominal': nominal,
+            'waktu': FieldValue.serverTimestamp(),
+          });
+        } else {
+          batch.updateData(userRef, {'saldo': FieldValue.increment(nominal)});
+          batch.setData(
+              userRef.collection('transaksi').document(transactionId), {
+            'VA': false,
+            'keterangan': 'Kembalian',
+            'nominal': nominal,
+            'merchant': merchantId,
+            'waktu': FieldValue.serverTimestamp(),
+          });
+        }
+
         batch
             .updateData(merchantRef, {'saldo': FieldValue.increment(-nominal)});
         batch.setData(
@@ -182,6 +157,280 @@ class _QRPageState extends State<QRPage> {
       }
       controller.resumeCamera();
     });
+  }
+
+  Future<DocumentReference> dialogImpian(FirebaseUser user) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Pilih target impianmu',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance
+                  .collection('pengguna')
+                  .document(user.uid)
+                  .collection('dream')
+                  .orderBy('waktu')
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError)
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: CircularProgressIndicator());
+                  default:
+                    return ListView(
+                      shrinkWrap: true,
+                      children: snapshot.data.documents
+                          .map((DocumentSnapshot document) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop(document.reference);
+                          },
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    document.data['nama'],
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: LinearProgressIndicator(
+                                      value: (document.data['progress'] /
+                                          document.data['target']),
+                                    ),
+                                  ),
+                                  Text(
+                                      'Masih butuh Rp${formatUang((document.data['target'] - document.data['progress']).toString())} lagi'),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                }
+              },
+            ),
+          );
+        });
+  }
+
+  Future<bool> dialogInvestasi(FirebaseUser user) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Pilih target investasimu',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: ListTile(
+              onTap: () {
+                Navigator.of(context).pop(true);
+              },
+              title: Text(
+                'Emas',
+                style: TextStyle(color: Colors.blue, fontSize: 14),
+              ),
+              subtitle: StreamBuilder<DocumentSnapshot>(
+                stream: Firestore.instance
+                    .collection('pengguna')
+                    .document(user.uid)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (snapshot.connectionState != ConnectionState.waiting &&
+                      !snapshot.hasError) {
+                    return Text(
+                      'Rp${formatUang(snapshot.data.data['emas']?.toString() ?? '0')}',
+                      style: TextStyle(fontSize: 12),
+                    );
+                  }
+                  return SizedBox.shrink();
+                },
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<String> dialogSedekah() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Pilih target sedekahmu',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                ListTile(
+                  title: Text('Panti Asuhan X'),
+                  subtitle: Text('Pembangunan gedung yang rusak'),
+                  onTap: () {
+                    Navigator.of(context).pop('Panti Asuhan X');
+                  },
+                ),
+                ListTile(
+                  title: Text('Masjid A'),
+                  subtitle: Text('Perbaikan mimbar'),
+                  onTap: () {
+                    Navigator.of(context).pop('Masjid A');
+                  },
+                ),
+                ListTile(
+                  title: Text('Gereja B'),
+                  subtitle: Text('Penambahan bilik pengakuan dosa'),
+                  onTap: () {
+                    Navigator.of(context).pop('Gereja B');
+                  },
+                ),
+                ListTile(
+                  title: Text('Vihara C'),
+                  subtitle: Text('Pembangungan patung Dewi Kwan Im'),
+                  onTap: () {
+                    Navigator.of(context).pop('Vihara C');
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Future<String> dialogReceh(DocumentSnapshot merchantDoc, int nominal) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Receh',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                    'Anda mendapat kembalian dari ${merchantDoc.data['nama']} senilai Rp${formatUang(nominal.toString())}'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 72,
+                      child: RaisedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop('sedekah');
+                        },
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(height: 4),
+                            Image.asset('img/alms.png', height: 48),
+                            Text(
+                              'Sedekah',
+                              style: TextStyle(fontSize: 8),
+                            ),
+                            SizedBox(height: 4),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 72,
+                      child: RaisedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop('dream');
+                        },
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(height: 4),
+                            Image.asset('img/dream_saving.png', height: 48),
+                            Text(
+                              'Dream Saving',
+                              style: TextStyle(fontSize: 6),
+                            ),
+                            SizedBox(height: 4),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 72,
+                      child: RaisedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop('investasi');
+                        },
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(height: 4),
+                            Image.asset('img/investment.png', height: 48),
+                            Text(
+                              'Investasi',
+                              style: TextStyle(fontSize: 8),
+                            ),
+                            SizedBox(height: 4),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                FlatButton(
+                  child: Text(
+                    'Masukkan ke ArtaWallet',
+                    style: TextStyle(fontSize: 10),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop('arta');
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   @override

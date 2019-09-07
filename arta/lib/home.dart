@@ -3,7 +3,6 @@ import 'package:Arta/page_history.dart';
 import 'package:Arta/page_home.dart';
 import 'package:Arta/page_qr.dart';
 import 'package:Arta/page_wallet.dart';
-import 'package:Arta/splash.dart';
 import 'package:Arta/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

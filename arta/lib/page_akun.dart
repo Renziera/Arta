@@ -1,4 +1,3 @@
-import 'package:Arta/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,33 +36,39 @@ class _AkunPageState extends State<AkunPage> {
         ListTile(
           title: Text(nama ?? ''),
           subtitle: Text(nomor ?? ''),
-          onTap: (){},
+          leading: Image.asset('img/user.png', height: 36),
+          onTap: () {},
         ),
         Divider(),
         ListTile(
           title: Text('Voucher Saya'),
-          onTap: (){},
+          leading: Image.asset('img/voucher.png', height: 36),
+          onTap: () {},
         ),
         Divider(),
         ListTile(
           title: Text('Pilihan Bahasa'),
           subtitle: Text('Bahasa Indonesia'),
-          onTap: (){},
+          leading: Image.asset('img/bahasa.png', height: 36),
+          onTap: () {},
         ),
         Divider(),
         ListTile(
           title: Text('Bantuan'),
-          onTap: (){},
+          leading: Image.asset('img/bantuan.png', height: 36),
+          onTap: () {},
         ),
         Divider(),
         ListTile(
           title: Text('Ketentuan Layanan'),
-          onTap: (){},
+          leading: Image.asset('img/ketentuan.png', height: 36),
+          onTap: () {},
         ),
         Divider(),
         ListTile(
           title: Text('Kebijakan Privasi'),
-          onTap: (){},
+          leading: Image.asset('img/privasi.png', height: 36),
+          onTap: () {},
         ),
       ],
     );
